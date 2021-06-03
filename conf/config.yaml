@@ -1,0 +1,50 @@
+server:
+  addr: "http://0.0.0.0"
+  port: 8090
+app:
+  name: ETH_SYNC
+  version: v1.0
+  description: ETH_SYNC
+# log
+log:
+  modules: "*" # all is "*"
+  format: logfmt
+  file_path: logs
+  file_name: errors.json
+  level: 4
+  console: true
+  use_color: true
+database:
+  master:
+    driverName: mysql
+    user: root
+    password: root
+    host: 127.0.0.1
+    port: 3306
+    database: sync_eth
+    charset: utf8
+    showSql: true
+    logLevel: 5
+    maxIdleConns: 10
+  es:
+    host: http://127.0.0.1:9200
+  levelDb:
+    path: ./logs/levelDb/db
+  mq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+# chain config
+chainConfig:
+  chainType: 2 # 1:BTC 2:ETH
+  chainName: dev_eth
+  host: http://127.0.0.1:7545
+  chainId: 5777
+  clientIdentifier: eth
+  isEip155: true
+  baseDecimals: 6
+  minConfirms: 0
+  syncStartBlock: 0
+
+

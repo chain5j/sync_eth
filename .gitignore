@@ -1,0 +1,6 @@
+/.idea/*
+**/*.log
+/logs
+/pkg/database/kvstore/leveldb/db/
+/go.sum
+/levelDb/
