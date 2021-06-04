@@ -12,7 +12,6 @@ import (
 	"github.com/chain5j/sync_eth/params/global"
 	"os"
 	"os/signal"
-	"strconv"
 )
 
 func server() error {
@@ -28,8 +27,6 @@ func server() error {
 		log.Error("sync.Start err", "err", err)
 		return err
 	}
-
-	log.Info("Server Run http://127.0.0.1:" + strconv.Itoa(global.Config.Server.Port) + "/")
 
 	log.Info("Enter Control + C Shutdown Server")
 

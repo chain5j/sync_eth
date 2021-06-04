@@ -1,15 +1,20 @@
-FROM golang:1.14.3-alpine
-ENV GO111MODULE=on
-ENV BROWSERTASK=/go/src/github.com/chain5j/sync_eth
-ENV GOPROXY=https://goproxy.cn,direct
-COPY . $BROWSERTASK
-WORKDIR $BROWSERTASK
-ADD go.mod .
-RUN cd $BROWSERTASK  && go mod download
-RUN cd $BROWSERTASK/ && GOOS=linux CGO_ENABLED=0 go build -o sync_eth
-
 FROM alpine:edge
-ENV BROWSERTASK=/go/src/github.com/chain5j/sync_eth
-COPY --from=0  $BROWSERTASK/sync_eth /usr/bin
+
+ENV TZ=Asia/Shanghai
+RUN rm -rf /etc/localtime &&\
+    ln -sv /usr/share/zoneinfo/$TZ /etc/localtime &&\
+    echo '$TZ' >/etc/timezone
+
+ENV APPDIR=/data
+ENV TEMPDIR=/temp
+RUN mkdir -p $APPDIR $APPDIR/conf $TEMPDIR
+
+COPY . $TEMPDIR
+
+RUN cp $TEMPDIR/sync_eth /usr/bin \
+    && cp $TEMPDIR/conf/config.yaml $APPDIR/conf/
+
+RUN rm -rf $TEMPDIR
+
 WORKDIR /data
-CMD  ["sync_eth"]
+ENTRYPOINT ["sync_eth"]
